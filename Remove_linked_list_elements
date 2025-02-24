@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to remove elements with a specific value from the linked list
+struct ListNode* removeElements(struct ListNode* head, int val) {
+    // Create a temporary node to simplify edge cases (like removing the head)
+    struct ListNode* x = (struct ListNode*)malloc(sizeof(struct ListNode));
+    x->next = head; // Point x's next to the actual head of the list
+
+    // Pointer to traverse the linked list, starting from x
+    struct ListNode* current = x;
+    
+    // Iterate through the list while there are more nodes
+    while (current->next != NULL) {
+        // If the next node's value matches the target value, remove it
+        if (current->next->val == val) {
+            struct ListNode* temp = current->next; // Store the node to be deleted
+            current->next = current->next->next;   // Bypass the node being removed
+            free(temp);  // Free the memory of the removed node
+        } else {
+            // Move to the next node if no deletion is needed
+            current = current->next;
+        }
+    }
+    
+    struct ListNode* newHead = x->next; // The new head of the modified list
+    free(x); // Free x as it's no longer needed
+    return newHead; // Return the new head of the modified list
+}
